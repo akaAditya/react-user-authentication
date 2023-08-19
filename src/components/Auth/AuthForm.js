@@ -1,10 +1,13 @@
-import { useState, useRef } from "react";
-
+import { useState, useRef, useContext } from "react";
 import classes from "./AuthForm.module.css";
+import AuthContext from "../store/auth-context";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const authCtx = useContext(AuthContext);
+
   const emailHandler = useRef();
   const passwordHandler = useRef();
 
@@ -35,24 +38,27 @@ const AuthForm = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => {
-      setIsLoading(false);
-      if (res.ok) {
-        console.log(res.json())
-      } else {
-        return res.json().then((data) => {
-          let errorMessage = "Login Authentication Failed";
-          // if(data && data.error && data.error.message){
-          //   errorMessage = data.error.message
-          // }
-          throw new Error(errorMessage);
-        });
-      }
-    }).then((data)=>{
-      console.log(data)
-    }).catch((err)=>{
-      alert(err.message);
     })
+      .then((res) => {
+        setIsLoading(false);
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = "Login Authentication Failed";
+            // if(data && data.error && data.error.message){
+            //   errorMessage = data.error.message
+            // }
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        authCtx.login(data.idToken);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
