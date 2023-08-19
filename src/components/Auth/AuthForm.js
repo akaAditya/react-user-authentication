@@ -71,7 +71,7 @@ const AuthForm = () => {
         </div>
         <div className={classes.control}>
           <label htmlFor="password">Your Password</label>
-          <input type="password" id="password" required ref={passwordHandler} />
+          <input type="password" id="password" minLength='7' required ref={passwordHandler} />
         </div>
         <div className={classes.actions}>
           {!isLoading && (
