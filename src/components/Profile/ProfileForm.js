@@ -1,10 +1,18 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import classes from "./ProfileForm.module.css";
 import AuthContext from "../store/auth-context";
 
+
 const ProfileForm = () => {
+  const [updatePsw, setUpdatePsw]= useState(false);
+  
   const authCtx = useContext(AuthContext);
   const changePasswordInputRef = useRef();
+
+  const updatePasswordHandler = ()=>{
+    setUpdatePsw(true)
+    alert('Password changed Successfully')
+  }
   const submitChangedPasswordHandler = (event) => {
     event.preventDefault();
     const newEnteredPasswordInput = changePasswordInputRef.current.value;
@@ -33,7 +41,7 @@ const ProfileForm = () => {
         <input type="password" id="new-password" ref={changePasswordInputRef} />
       </div>
       <div className={classes.action}>
-        <button>Change Password</button>
+        <button onClick={updatePasswordHandler}>Change Password</button>
       </div>
     </form>
   );
