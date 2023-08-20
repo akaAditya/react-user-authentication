@@ -11,7 +11,7 @@ const ProfileForm = () => {
 
   const updatePasswordHandler = ()=>{
     setUpdatePsw(true)
-    alert('Password changed Successfully')
+    alert('Password changed Successfully', updatePsw)
   }
   const submitChangedPasswordHandler = (event) => {
     event.preventDefault();
